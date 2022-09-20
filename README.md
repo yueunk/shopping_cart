@@ -59,3 +59,6 @@ For the initial application data, you can start with the following list of produ
 ## DOCS
 
 You can find documentation in the `docs` folder in `api.md` file.
+
+## To do
+- handle "Add A Product" rendering with conditional
