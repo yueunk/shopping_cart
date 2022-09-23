@@ -1,19 +1,19 @@
 import { useState } from "react";
 
-const AddForm = ({ onSubmit }) => {
+const AddProductForm = ({ onSubmit }) => {
   const [visible, setVisible] = useState(false);
-  const [product, setProduct] = useState(""); // product
-  const [price, setPrice] = useState(0); // price
-  const [quantity, setQuantity] = useState(0); // quantity; input is a string
+  const [product, setProduct] = useState("");
+  const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   
 
   const formClass = visible ? "add-form visible" : "add-form"; 
 
-  const toggleVisibility = e => {
+  const toggleVisibility = (e) => {
     setVisible(!visible)
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const newProduct = { title: product, price, quantity };
     onSubmit(newProduct, resetInputs)
@@ -59,4 +59,4 @@ const AddForm = ({ onSubmit }) => {
   )
 }
 
-export default AddForm;
+export default AddProductForm;
