@@ -1,11 +1,11 @@
 import Product from "./Product";
 
-const ProductListing = ({ products }) => {
+const ProductListing = ({ products, onUpdate, onUpdateCart, onDeleteProduct }) => {
   return (
     <div class="product-listing">
       <h2>Products</h2>   
-      {products.map(({ _id: id, title, quantity, price }) => {
-        return <Product key={id} id={id} title={title} quantity={quantity} price={price}/>;
+      {products.map((product) => {
+        return <Product key={product._id} product={product} onUpdate={onUpdate} onUpdateCart={onUpdateCart} onDeleteProduct={onDeleteProduct}/>;
       })}
     </div>
   );

@@ -10,14 +10,17 @@ const AddProductForm = ({ onSubmit }) => {
   const formClass = visible ? "add-form visible" : "add-form"; 
 
   const toggleVisibility = (e) => {
-    setVisible(!visible)
-  }
+    setVisible(!visible);
+    if (!visible) {
+      resetInputs();
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const newProduct = { title: product, price, quantity };
     onSubmit(newProduct, resetInputs)
-  }
+  };
 
   const resetInputs = () => {
     setProduct("");
