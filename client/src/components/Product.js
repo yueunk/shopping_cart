@@ -2,23 +2,29 @@ import axios from "axios";
 import { useState } from "react";
 import EditProductForm from "./EditProductForm";
 
-const Product = ({ product, onUpdate, onUpdateCart, onDeleteProduct }) => {
+const Product = ({ product, onUpdateProduct, onUpdateCart, onDeleteProduct }) => {
   const [visible, setVisible] = useState(false);
+
+  const addToCartClass = Number(product.quantity) === 0 ? "button add-to-cart disabled" : "button add-to-cart";
   
   const handleToggle = () => {
-    setVisible(!visible)
+    setVisible(!visible);
   };
 
   const reduceQuantity = () => {
-    const updatedProduct = { ...product, quantity: product.quantity - 1 }
+    const updatedProduct = { ...product, quantity: product.quantity - 1 };
     
-    onUpdate(updatedProduct)
+    onUpdateProduct(updatedProduct);
   }
   
   const handleAddToCart = (e, product) => {
     e.preventDefault();
-    
-    onUpdateCart(product, reduceQuantity)
+
+    if (product.quantity === 0 ) {
+      alert("Out of Stock");
+    } else {
+      onUpdateCart(product, reduceQuantity);
+    }
   }
 
   const handleDeleteProduct = (e, id) => {
@@ -33,9 +39,9 @@ const Product = ({ product, onUpdate, onUpdateCart, onDeleteProduct }) => {
         <h3>{product.title}</h3>
         <p class="price">${product.price}</p>
         <p class="quantity">{product.quantity} left in stock</p>
-        {visible ? <EditProductForm product={product} onUpdate={onUpdate} onToggle={handleToggle}/> : null}
+        {visible ? <EditProductForm product={product} onUpdateProduct={onUpdateProduct} onToggle={handleToggle}/> : null}
         <div class="actions product-actions">
-          <a class="button add-to-cart" onClick={e => handleAddToCart(e, product)}>Add to Cart</a>
+          <a class={addToCartClass} onClick={e => handleAddToCart(e, product)}>Add to Cart</a>
           <a class="button edit" onClick={handleToggle}>Edit</a>
         </div>
         <a class="delete-button" onClick={e => handleDeleteProduct(e, product._id)}><span>X</span></a>

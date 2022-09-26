@@ -25,47 +25,52 @@ const App = () => {
   }, []);
 
   const handleSubmit = async (newProduct, callback) => {
-    try {
-      const response = await axios.post("/api/products", { ...newProduct });
-      setProducts(products.concat(response.data))
+    if (newProduct.quantity >= 0) {
+      try {
+        const response = await axios.post("/api/products", { ...newProduct });
+        setProducts(products.concat(response.data))
 
-      if (callback) {
-        callback();
+        if (callback) {
+          callback();
+        }
+
+      } catch (e) {
+        console.error(e)
       }
-
-    } catch (e) {
-      console.error(e)
+    } else {
+      alert("the quantity must be at least 0")
     }
-  }
+  } 
 
-  const handleUpdate = async (updatedProduct, callback) => {
-    try {
-      await axios.put(`/api/products/${updatedProduct._id}`, { ...updatedProduct });
-
-      setProducts(products.map(prod => prod._id === updatedProduct._id ? updatedProduct : prod))
-
-      if (callback) {
-        callback();
+  const handleUpdateProduct = async (updatedProduct, callback) => {
+    if (updatedProduct.quantity >= 0) {
+      try {
+        await axios.put(`/api/products/${updatedProduct._id}`, { ...updatedProduct });
+  
+        setProducts(products.map(prod => prod._id === updatedProduct._id ? updatedProduct : prod))
+  
+        if (callback) {
+          callback();
+        }
+      } catch (e) {
+        console.error(e)
       }
-    } catch (e) {
-      console.error(e)
+    } else {
+      alert("the quantity must be at least 0")
     }
   }
   
   const handleUpdateCart = async (addedItem, callback) => {
     try {
-      await axios.post("/api/add-to-cart", { productId: addedItem._id } );
-
-      console.log(cartItems.find(item => {
-        console.log(item)
-        console.log("item productId", item.productId)
-        console.log("addedItem id", addedItem._id)
-        item._id === addedItem._id
-      }));
-      if (cartItems.find(item => item.productId === addedItem._id)) {
-        setCartItems(cartItems.map(item => item.productId === addedItem._id ? {...item, quantity: item.quantity + 1 } : item))
+      const response = await axios.post("/api/add-to-cart", { productId: addedItem._id } );
+      const currentItem = response.data.item;
+    
+      if (cartItems.find(item => item.productId === currentItem.productId)) {
+        console.log("inside map block")
+        setCartItems(cartItems.map(item => item.productId === currentItem.productId ? {...item, quantity: item.quantity + 1 } : item))
       } else {
-        setCartItems(cartItems.concat({ ...addedItem, quantity: 1 }))
+        console.log("inside concat block")
+        setCartItems(cartItems.concat({ ...currentItem, quantity: 1 }))
       }
     
       if (callback) {
@@ -102,7 +107,7 @@ const App = () => {
         <Cart items={cartItems} onCheckout={handleCheckout}/>
       </header>
       <main>
-        <ProductListing products={products} onUpdate={handleUpdate} onUpdateCart={handleUpdateCart} onDeleteProduct={handleDeleteProduct}/>
+        <ProductListing products={products} onUpdateProduct={handleUpdateProduct} onUpdateCart={handleUpdateCart} onDeleteProduct={handleDeleteProduct}/>
         <AddProductForm onSubmit={handleSubmit}/>
       </main>
     </div>

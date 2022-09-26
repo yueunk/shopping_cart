@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-const EditProductForm = ({ product, onUpdate, onToggle }) => {
+const EditProductForm = ({ product, onUpdateProduct, onToggle }) => {
   const [productTitle, setProductTitle] = useState(product.title);
   const [productPrice, setProductPrice] = useState(product.price);
   const [productQuantity, setProductQuantity] = useState(product.quantity);
@@ -11,7 +11,7 @@ const EditProductForm = ({ product, onUpdate, onToggle }) => {
 
     const updatedProduct = { ...product, title: productTitle, price: productPrice, quantity: productQuantity}
     
-    onUpdate(updatedProduct, onToggle)
+    onUpdateProduct(updatedProduct, onToggle)
   }
 
   return (

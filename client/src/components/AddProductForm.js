@@ -9,7 +9,7 @@ const AddProductForm = ({ onSubmit }) => {
 
   const formClass = visible ? "add-form visible" : "add-form"; 
 
-  const toggleVisibility = (e) => {
+  const handleToggle = (e) => {
     setVisible(!visible);
     if (!visible) {
       resetInputs();
@@ -19,7 +19,8 @@ const AddProductForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newProduct = { title: product, price, quantity };
-    onSubmit(newProduct, resetInputs)
+    handleToggle();
+    onSubmit(newProduct, resetInputs);
   };
 
   const resetInputs = () => {
@@ -31,7 +32,7 @@ const AddProductForm = ({ onSubmit }) => {
   return (
     <div class={formClass}>
       <p>
-        <a class="button add-product-button" onClick={toggleVisibility}>
+        <a class="button add-product-button" onClick={handleToggle}>
           Add A Product
         </a>
       </p>
@@ -55,7 +56,7 @@ const AddProductForm = ({ onSubmit }) => {
 
         <div class="actions form-actions">
           <a class="button" onClick={handleSubmit}>Add</a>
-          <a class="button" onClick={toggleVisibility}>Cancel</a>
+          <a class="button" onClick={handleToggle}>Cancel</a>
         </div>
       </form>
     </div>
