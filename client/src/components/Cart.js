@@ -13,9 +13,9 @@ const Cart = ({ items, onCheckout }) => {
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   
   return (      
-    <div class="cart">
+    <div className="cart">
       <h2>Your Cart</h2>
-      <table class="cart-items">
+      <table className="cart-items">
         <tr>
           <th>Item</th>
           <th>Quantity</th>
@@ -27,10 +27,10 @@ const Cart = ({ items, onCheckout }) => {
           )
         })}
         <tr>
-          <td colspan="3" class="total">Total: ${total.toFixed(2)}</td>
+          <td colSpan="3" className="total">Total: ${total.toFixed(2)}</td>
         </tr>
       </table>
-      <a class="button checkout" onClick={onCheckout}>Checkout</a>
+      <a href="#" className="button checkout" onClick={onCheckout}>Checkout</a>
     </div>
   )
 }
